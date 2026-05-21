@@ -130,6 +130,14 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("playerReady", ({ myId }) => {
+    readyPlayers.add(myId);
+    if (readyPlayers.size === 2) {
+      io.to(roomId).emit("bothReady");
+      readyPlayers.clear();
+    }
+  });
+
   // ── BATTLE READY ──────────────────────────────
   socket.on("battleReady", () => {
       const roomId = socket.roomId;
