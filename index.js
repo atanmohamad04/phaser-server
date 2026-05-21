@@ -222,6 +222,18 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("syncStatue", (data) => {
+      const roomId = socket.roomId;
+      if (!roomId) return;
+      socket.to(roomId).emit("syncStatue", data);
+  });
+  
+  socket.on("syncDoor", (data) => {
+      const roomId = socket.roomId;
+      if (!roomId) return;
+      socket.to(roomId).emit("syncDoor", data);
+  });
+
   // ── DISCONNECT ───────────────────────────────
   socket.on("disconnect", () => {
     console.log("Player disconnected:", socket.id);
