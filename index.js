@@ -234,6 +234,15 @@ io.on("connection", (socket) => {
       socket.to(roomId).emit("syncDoor", data);
   });
 
+  socket.on("battleOver", (data) => {
+      const roomId = socket.roomId;
+      if (!roomId) return;
+
+      socket.to(roomId).emit("opponentWon", {
+          winnerId: socket.id,
+      });
+  });
+
   // ── DISCONNECT ───────────────────────────────
   socket.on("disconnect", () => {
     console.log("Player disconnected:", socket.id);
